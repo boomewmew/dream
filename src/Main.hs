@@ -18,5 +18,13 @@
 
 module Main where
 
+import qualified Data.WAVE
+
+duration :: Int
+duration = 1000000
+
 main :: IO ()
-main = return ()
+main =
+    Data.WAVE.putWAVEFile "test.wav" $
+        Data.WAVE.WAVE (Data.WAVE.WAVEHeader 2 44100 16 $ Just duration) $
+        replicate duration $ replicate 2 $ Data.WAVE.doubleToSample 0.0
