@@ -21,10 +21,11 @@ module Main where
 import qualified Data.WAVE
 
 duration :: Int
-duration = 1000000
+duration = 120000
 
 main :: IO ()
 main =
     Data.WAVE.putWAVEFile "test.wav" $
-        Data.WAVE.WAVE (Data.WAVE.WAVEHeader 2 44100 16 $ Just duration) $
-        replicate duration $ replicate 2 $ Data.WAVE.doubleToSample 0.0
+    Data.WAVE.WAVE (Data.WAVE.WAVEHeader 2 44100 16 $ Just duration) $
+    map (replicate 2 . Data.WAVE.doubleToSample . sin . (/10) . fromIntegral)
+        [0..duration - 1]
