@@ -16,16 +16,9 @@
 
 -- Address correspondence about this library to boomewmew@gmail.com.
 
-module Main where
+module Neural where
 
-import qualified Data.WAVE
+import qualified Tensor
 
-duration :: Num n => n
-duration = 120000
-
-main :: IO ()
-main =
-    Data.WAVE.putWAVEFile "test.wav" $
-    Data.WAVE.WAVE (Data.WAVE.WAVEHeader 2 44100 16 $ Just duration) $
-    map (replicate 2 . Data.WAVE.doubleToSample . sin . (/10) . fromIntegral)
-        [0..duration - 1]
+fullyConnected :: Tensor.Vector -> Tensor.Matrix -> Maybe Tensor.Vector
+fullyConnected inputs weights | length inputs == 
