@@ -25,3 +25,6 @@ fullyConnected :: Tensor.Matrix -> Tensor.Vector -> Tensor.Vector ->
                   Tensor.Vector
 fullyConnected weights biases inputs =
     weights Numeric.LinearAlgebra.#> inputs + biases
+
+activation :: Tensor.Vector -> Tensor.Vector
+activation = Numeric.LinearAlgebra.cmap tanh
