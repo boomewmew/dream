@@ -16,9 +16,12 @@
 
 -- Address correspondence about this library to boomewmew@gmail.com.
 
-module Neural where
+module Neural (fullyConnected) where
 
+import qualified Numeric.LinearAlgebra
 import qualified Tensor
 
-fullyConnected :: Tensor.Vector -> Tensor.Matrix -> Maybe Tensor.Vector
-fullyConnected inputs weights | length inputs == 
+fullyConnected :: Tensor.Matrix -> Tensor.Vector -> Tensor.Vector ->
+                  Tensor.Vector
+fullyConnected weights biases inputs =
+    weights Numeric.LinearAlgebra.#> inputs + biases

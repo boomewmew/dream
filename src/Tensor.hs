@@ -16,60 +16,10 @@
 
 -- Address correspondence about this library to boomewmew@gmail.com.
 
-module Tensor (Scalar, Vector, Matrix, (*)) where
+module Tensor (Scalar, Vector, Matrix) where
 
-import qualified Data.Array
-import qualified Data.Ix
-
-import Data.Array ((!))
-
-type Index  = Int
-type Length = Int
-
-offset :: Length
-offset = 1
-
-maxToLength :: Index -> Length
-maxToLength l = l + offset
-
-lengthToMax :: Length -> Index
-lengthToMax l = l - offset
-
-bounds :: Length -> (Index, Index)
-bounds l = (0, lengthToMax l)
-
-indices :: Length -> [Index]
-indices l = let b = bounds l in [fst b..snd b]
+import qualified Numeric.LinearAlgebra.Data
 
 type Scalar = Double
-
-type Vector = Data.Array.Array Index Scalar
-
-vector :: [Scalar] -> Vector
-vector l = Data.Array.listArray (bounds $ Prelude.length l) l
-
-length :: Vector -> Length
-length v = maxToLength $ snd $ Data.Array.bounds v
-
-type Matrix = Data.Array.Array (Index, Index) Scalar
-
-height :: Matrix -> Length
-height m = maxToLength $ fst $ snd $ Data.Array.bounds m
-
-width :: Matrix -> Length
-width m = maxToLength $ snd $ snd $ Data.Array.bounds m
-
-matTimesVec :: Matrix -> Vector -> Either String Vector
-matTimesVec m v
-    | w == l =
-        Right $
-            vector
-                [foldr (+) 0 [m ! (i, j) * v ! j | j <- indices l]
-                    | i <- indices $ height m]
-    | otherwise =
-        Left $
-            "Matrix width (" ++ show w ++ ") must match vector length (" ++
-                show l ++ ")."
-    where
-        w = width m
-        l = Tensor.length v
+type Vector = Numeric.LinearAlgebra.Data.Vector Scalar
+type Matrix = Numeric.LinearAlgebra.Data.Matrix Scalar
